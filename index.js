@@ -2,8 +2,22 @@ const radioheadRemainingMembers = ["Jonny Greenwood", "Colin Greenwood", "Ed O'B
 
 const addMembersTrigger = document.getElementById('add-members-trigger')
 
-function addRemaningRadioheadMembers() {
+addMembersTrigger.addEventListener('click', addRemaningRadioheadMembers)
 
+
+function addRemaningRadioheadMembers() {
+  radioheadRemainingMembers.forEach(memberName => {
+    let memberObj = {name: memberName, band_id: 2}
+    addMember(memberObj)
+  })
 }
 
-addMembersTrigger.addEventListener('click', addRemaningRadioheadMembers)
+function addMember(member) {
+  fetch('http://localhost:3000/members', {
+    method: 'POST',
+    body: JSON.stringify(member),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }).then(res => res.json()).then(data => console.log(data.id))
+}
